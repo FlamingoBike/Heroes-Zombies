@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Heroes & Zombies </title>
+    <style>
+      #canvas {
+        width: 1000px;
+        height: 800px;
+        border: 5px solid orange;
+      }
+      img {
+        display: none;
+        rotation-point: 50% 50%;
+      }
+    </style>
+  </head>
+  <body onload="startup()" onkeydown="keydown(event)" onkeyup="keyup(event)">
+    <canvas id="canvas" width="1000" height="800" onmousemove="logmouse(event)" onmousedown="mousedown(event)" onmouseup="mouseup(event)" > Lols </canvas>
+
+    <img id="imgBackground" src="src/img/background.png"  />
+    <!-- Carìkters cit. prof.ssa inglese di LefnofniDeDawg (Characters) -->
+    <img id="imgCharacter0" src="src/img/character_0.png" />
+    <img id="imgCharacter1" src="src/img/character_1.png" />
+    <img id="imgCannoneer0" src="src/img/cannoneer_0.png" />
+    <img id="imgMage0"      src="src/img/mage_0.png"      />
+    <img id="imgArcher0"    src="src/img/archer_0.png"    />
+    <img id="imgSwordsman0" src="src/img/swordsman_0.png" />
+    <img id="imgSwordsman1" src="src/img/swordsman_1.png" />
+    <!-- Projectiles -->
+    <img id="pSpear"        src="src/img/spear.png"       />
+    <img id="pCannon"       src="src/img/cannonball.png"  />
+    <img id="pMage"         src="src/img/mageball.png"    />
+    <img id="pArcher"       src="src/img/arrow.png"       />
+    <img id="pArcherH"      src="src/img/arrowHot.png"    />
+    <img id="pSwordsman"    src="src/img/sword.png"       /> <!-- 9 => 81 -->
+
+    <img id="eZombie"       src="src/img/zombie.png"      />
+    <!-- Powerups -->
+    <img id="poGlow"        src="src/img/ppglow.png"      />
+    <img id="poSpear"       src="src/img/powerup_0.png"   />
+    <img id="poCannon"      src="src/img/powerup_1.png"   />
+    <img id="poWand"        src="src/img/powerup_2.png"   />
+    <img id="poBow"         src="src/img/powerup_3.png"   />
+    <img id="poSword"       src="src/img/powerup_4.png"   />
+
+    <script src="player.js">     </script>
+    <script src="projectile.js"> </script>
+    <script src="enemy.js">      </script>
+    <script src="powerup.js">    </script>
+    <script src="MainScript.js"> </script>
+  </body>
+</html>
