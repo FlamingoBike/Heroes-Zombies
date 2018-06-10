@@ -12,6 +12,8 @@ var area = {
   },
 }
 
+var hp = 100;
+
 // Keyboard and Mouse controls
 var heldA = false;
 var heldW = false;
@@ -70,13 +72,7 @@ function draw() {
 
   drawbg();
 
-<<<<<<< HEAD:MainScript.js
-  if(eController.spawnTimer == 0 && pause == 0) {
-=======
-  drawScene();
-
   if(enemy_controller.spawnTimer == 0 && pause == 0) {
->>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
     var rx = Math.floor(Math.random() * 2);
     var ry = Math.floor(Math.random() * 2);
     if(rx == 0) rx = Math.floor(Math.random() * 51);
@@ -107,12 +103,8 @@ function draw() {
       console.log("X: " + Projectiles[j].x + " Y: " + Projectiles[j].y + " CX: " + Projectiles[j].cx + " CY: " + Projectiles[j].cy);
       console.log("----- Enemy -----");
       console.log("X: " + Enemies[i].x + " Y: " + Enemies[i].y);*/
-<<<<<<< HEAD:MainScript.js
       //Check if projectiles is a sword
       if(Projectiles[j].type == "SWORD") {
-=======
-      if(Projectiles[j].type == "SWORD") { // Proj. center-point radius collision with zombie
->>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
         if(dist2(Projectiles[j].x + (Projectiles[j].w / 2), Projectiles[j].y + (Projectiles[j].h / 2), Enemies[i].x + (Enemies[i].w / 2), Enemies[i].y + (Enemies[i].h / 2)) < (Enemies[i].x + (Enemies[i].w / 2) + Projectiles[j].x + (Projectiles[j].w / 2)))  {
           Enemies[i].hp -= Projectiles[j].dmg;
         }
@@ -169,20 +161,28 @@ function drawbg() {
 
 //Draw HUD
 function drawScene() {
-<<<<<<< HEAD:MainScript.js
   //Draw score text
-  area.ctx.fillText("Score: " + stext.score, stext.x, stext.y);
+  draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
 
   //Draw HUD
-  var hud = document.getElementById("imgHud");
-  area.ctx.drawImage(hud, 0, 700);
+  var hp_hud = document.getElementById("imgHP");
+  area.ctx.drawImage(hp_hud, 0, 700);
+  hp--;
+  if (hp <= 0) hp = 100;
+  draw_bar(2, 798, 96, -96, hp, "#FF0000");
+
+} 
+
+function draw_bar(x, y, w, h, progress, color) {
+  var real_size = (progress * h) / 100;
+  area.ctx.fillStyle = color;
+  area.ctx.fillRect(x, y, w, real_size);
+  area.ctx.stroke();
 }
 
-function draw_bar(x, y, width, height, progress) {
-  
-=======
-  area.ctx.fillText("Score: " + score_text.value, score_text.x, score_text.y);
->>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
+function draw_text(x, y, color, text) {
+  area.ctx.fillStyle = color;
+  area.ctx.fillText(text, x, y);
 }
 
 function logmouse(event) {
