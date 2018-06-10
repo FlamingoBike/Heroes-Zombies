@@ -32,7 +32,9 @@ var click = 0;
 //
 
 // Game controller variables
-var pause = 0;
+var pause = false;
+var is_boss = false;
+var spawnmobs = true;
 //
 
 // Game mechanics variables
@@ -44,7 +46,7 @@ var player = new Player(400, 300);
 var enemy_controller = {
   spawnTimer: 0,
   maxSpawn: 100,
-}
+};
 //
 
 // Game statistics
@@ -52,12 +54,12 @@ var enemykills_text = {
   value: 0,
   x: 0, // Temporary, will add in a statistics display
   y: 0,
-}
+};
 var score_text = {
   value: 0,
   x: 6,
   y: 26,
-}
+};
 //
 
 function startup() {
@@ -71,7 +73,7 @@ function draw() {
 
   drawScene();
 
-  if(enemy_controller.spawnTimer == 0 && pause == 0) {
+  if(enemy_controller.spawnTimer == 0 && !pause && spawnmobs) {
     var rx = Math.floor(Math.random() * 2);
     var ry = Math.floor(Math.random() * 2);
     if(rx == 0) rx = Math.floor(Math.random() * 51);
@@ -95,12 +97,16 @@ function draw() {
     Enemies[i].show();
     Enemies[i].update();
     for(var j = 0; j < Projectiles.length; j++) {
-
-
       /*console.log("----- Proj -----");
       console.log("X: " + Projectiles[j].x + " Y: " + Projectiles[j].y + " CX: " + Projectiles[j].cx + " CY: " + Projectiles[j].cy);
       console.log("----- Enemy -----");
       console.log("X: " + Enemies[i].x + " Y: " + Enemies[i].y);*/
+
+      // Rotate canvas before checking collisions
+      area.ctx.save();
+      area.ctx.translate(Enemies[i].x, Enemies[i].y);
+      area.ctx.rotate(Enemies[i].angle);
+
       if(Projectiles[j].type == "SWORD") { // Proj. center-point radius collision with zombie
         if(dist2(Projectiles[j].x + (Projectiles[j].w / 2), Projectiles[j].y + (Projectiles[j].h / 2), Enemies[i].x + (Enemies[i].w / 2), Enemies[i].y + (Enemies[i].h / 2)) < (Enemies[i].x + (Enemies[i].w / 2) + Projectiles[j].x + (Projectiles[j].w / 2)))  {
           Enemies[i].hp -= Projectiles[j].dmg;
@@ -111,16 +117,25 @@ function draw() {
           Projectiles.splice(j, 1);
         }
       }
+
+      // Restore canvas position
+      area.ctx.restore();
+
     }
     if(Enemies[i].hp <= 0) {
-      var c_powerup = Math.random() * 100;
-      if(c_powerup >= 0 && c_powerup < 20) { // Spawn a Powerup at the enemy defeated
+      var powerup_chance = Math.random() * 100;
+      if(powerup_chance >= 0 && powerup_chance < 20) { // Spawn a Powerup at the enemy defeated
         var types = ["SPEAR", "CANNON", "WAND", "BOW", "SWORD"];
         var rtype = types[Math.floor(Math.random() * types.length)];
         Powerups.push(new Powerup(Enemies[i].x, Enemies[i].y, rtype));
       }
+      if(Enemies[i].type == "BOSSZOMBIE") {
+        is_boss = false;
+        spawnmobs = true;
+      }
       Enemies.splice(i, 1);
-      score_text.value++;
+      enemykills_text.value++;
+      score_text.value += 10;
     }
   }
 
@@ -141,7 +156,11 @@ function draw() {
   click = 0;
   pressE = false;
   pressX = false;
-  enemy_controller.spawnTimer--;
+
+  checkboss();
+
+  if(!pause && spawnmobs)
+    enemy_controller.spawnTimer--;
   /*pController.spawnTimer--;*/
 }
 
@@ -152,6 +171,20 @@ function drawbg() {
 
 function drawScene() {
   area.ctx.fillText("Score: " + score_text.value, score_text.x, score_text.y);
+}
+
+function checkboss() {
+  if(enemykills_text.value % 50 == 0 && enemykills_text.value != 0 && !is_boss) {
+    var rx = Math.floor(Math.random() * 2);
+    var ry = Math.floor(Math.random() * 2);
+    if(rx == 0) rx = Math.floor(Math.random() * 51);
+    else rx = area.width - 50 + Math.floor(Math.random() * 51);
+    if(ry == 0) ry = Math.floor(Math.random() * 51);
+    else ry = area.height - 50 + Math.floor(Math.random() * 51);
+    Enemies.push(new Enemy(rx, ry, "BOSSZOMBIE"));
+    is_boss = true;
+    spawnmobs = false;
+  }
 }
 
 function logmouse(event) {
@@ -274,7 +307,7 @@ function playerShoot() {
 }
 
 function stopGame() {
-  pause = 1;
+  pause = true;
   Enemies = [];
 }
 

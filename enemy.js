@@ -14,6 +14,14 @@ function Enemy(x, y, type) {
       this.img = document.getElementById("eZombie");
       this.speed = 0.5;
       this.hp = 2;
+      this.w = 44;
+      this.h = 44;
+    } else if(this.type == "BOSSZOMBIE") {
+      this.img = document.getElementById("eBosszombie");
+      this.speed = 0.35;
+      this.hp = 200;
+      this.w = 77;
+      this.h = 94;
     }
 
     this.update = function() {
