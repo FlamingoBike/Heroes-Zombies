@@ -4,7 +4,7 @@ var area = {
     this.width = 1000;
     this.height = 800;
     this.ctx = this.canvas.getContext("2d");
-    this.ctx.font = "900 30px Serif";
+    this.ctx.font = "900 20px Serif";
     this.interval = setInterval(draw, 1000/60);
   },
   clear : function() {
@@ -52,14 +52,13 @@ var click = 0;
 
 function startup() {
   area.start();
+  stopGame();
 }
 
 function draw() {
 	area.clear();
 
   drawbg();
-
-  drawScene();
 
   if(eController.spawnTimer == 0 && pause == 0) {
     var rx = Math.floor(Math.random() * 2);
@@ -84,6 +83,7 @@ function draw() {
   player.show();
   player.update();
 
+  //Show projectiles
   for(var i = 0; i < Projectiles.length; i++) {
     Projectiles[i].show();
     Projectiles[i].update();
@@ -100,6 +100,7 @@ function draw() {
       console.log("X: " + Projectiles[j].x + " Y: " + Projectiles[j].y + " CX: " + Projectiles[j].cx + " CY: " + Projectiles[j].cy);
       console.log("----- Enemy -----");
       console.log("X: " + Enemies[i].x + " Y: " + Enemies[i].y);*/
+      //Check if projectiles is a sword
       if(Projectiles[j].type == "SWORD") {
         if(dist2(Projectiles[j].x + (Projectiles[j].w / 2), Projectiles[j].y + (Projectiles[j].h / 2), Enemies[i].x + (Enemies[i].w / 2), Enemies[i].y + (Enemies[i].h / 2)) < (Enemies[i].x + (Enemies[i].w / 2) + Projectiles[j].x + (Projectiles[j].w / 2)))  {
           Enemies[i].hp -= Projectiles[j].dmg;
@@ -111,6 +112,7 @@ function draw() {
         }
       }
     }
+    //Check if enemy is dead
     if(Enemies[i].hp <= 0) {
       var c_powerup = Math.random() * 100;
       if(c_powerup >= 0 && c_powerup < 20) { // Spawn a Powerup at the enemy defeated
@@ -123,6 +125,7 @@ function draw() {
     }
   }
 
+  //Show powerups
   for(var i = 0; i < Powerups.length; i++) {
     Powerups[i].show();
     if(player.x > Powerups[i].x && player.x < Powerups[i].x + Powerups[i].w && player.y > Powerups[i].y && player.y < Powerups[i].y + Powerups[i].h) {
@@ -137,6 +140,9 @@ function draw() {
     } else Powerups[i].glow = 0;
   }
 
+  //Draw HUD
+  drawScene();
+
   click = 0;
   pressE = false;
   pressX = false;
@@ -144,13 +150,24 @@ function draw() {
   /*pController.spawnTimer--;*/
 }
 
+//Draws the background
 function drawbg() {
   var bg = document.getElementById("imgBackground");
   area.ctx.drawImage(bg, 0, 0);
 }
 
+//Draw HUD
 function drawScene() {
+  //Draw score text
   area.ctx.fillText("Score: " + stext.score, stext.x, stext.y);
+
+  //Draw HUD
+  var hud = document.getElementById("imgHud");
+  area.ctx.drawImage(hud, 0, 700);
+}
+
+function draw_bar(x, y, width, height, progress) {
+  
 }
 
 function logmouse(event) {
