@@ -12,6 +12,7 @@ var area = {
   },
 }
 
+// Keyboard and Mouse controls
 var heldA = false;
 var heldW = false;
 var heldS = false;
@@ -23,32 +24,41 @@ var dTime;
 var pressE = false;
 var pressX = false;
 
-var pause = 0;
-var eController = {
-  spawnTimer: 0,
-  maxSpawn: 100,
-}
-/*var pController = {
-  spawnTimer: 1000,
-  maxSpawn: 1000,
-}*/
-
-var Projectiles = [];
-var Enemies = [];
-var Powerups = [];
-var player = new Player(400, 300);
-
-var stext = {
-  score: 0,
-  x: 6,
-  y: 26,
-}
-
 var mouseX = 400;
 var mouseY = 300;
 var mouseHeld = false;
 var mouseTime;
 var click = 0;
+//
+
+// Game controller variables
+var pause = 0;
+//
+
+// Game mechanics variables
+var Projectiles = [];
+var Enemies = [];
+var Powerups = [];
+var player = new Player(400, 300);
+
+var enemy_controller = {
+  spawnTimer: 0,
+  maxSpawn: 100,
+}
+//
+
+// Game statistics
+var enemykills_text = {
+  value: 0,
+  x: 0, // Temporary, will add in a statistics display
+  y: 0,
+}
+var score_text = {
+  value: 0,
+  x: 6,
+  y: 26,
+}
+//
 
 function startup() {
   area.start();
@@ -60,7 +70,13 @@ function draw() {
 
   drawbg();
 
+<<<<<<< HEAD:MainScript.js
   if(eController.spawnTimer == 0 && pause == 0) {
+=======
+  drawScene();
+
+  if(enemy_controller.spawnTimer == 0 && pause == 0) {
+>>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
     var rx = Math.floor(Math.random() * 2);
     var ry = Math.floor(Math.random() * 2);
     if(rx == 0) rx = Math.floor(Math.random() * 51);
@@ -68,17 +84,8 @@ function draw() {
     if(ry == 0) ry = Math.floor(Math.random() * 51);
     else ry = area.height - 50 + Math.floor(Math.random() * 51);
     Enemies.push(new Enemy(rx, ry, "ZOMBIE"));
-    eController.spawnTimer = eController.maxSpawn;
+    enemy_controller.spawnTimer = enemy_controller.maxSpawn;
   }
-
-  /*if(pController.spawnTimer == 0 && pause == 0) {
-    var rx = Math.floor(Math.random() * (area.width - 40));
-    var ry = Math.floor(Math.random() * (area.height - 40))
-    var types = ["SPEAR", "CANNON", "WAND", "BOW"];
-    var rtype = types[Math.floor(Math.random() * types.length)];
-    Powerups.push(new Powerup(rx, ry, rtype));
-    pController.spawnTimer = pController.maxSpawn;
-  }*/
 
   player.show();
   player.update();
@@ -94,18 +101,22 @@ function draw() {
     Enemies[i].show();
     Enemies[i].update();
     for(var j = 0; j < Projectiles.length; j++) {
-      // Proj. center-point collision with zombie
+
 
       /*console.log("----- Proj -----");
       console.log("X: " + Projectiles[j].x + " Y: " + Projectiles[j].y + " CX: " + Projectiles[j].cx + " CY: " + Projectiles[j].cy);
       console.log("----- Enemy -----");
       console.log("X: " + Enemies[i].x + " Y: " + Enemies[i].y);*/
+<<<<<<< HEAD:MainScript.js
       //Check if projectiles is a sword
       if(Projectiles[j].type == "SWORD") {
+=======
+      if(Projectiles[j].type == "SWORD") { // Proj. center-point radius collision with zombie
+>>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
         if(dist2(Projectiles[j].x + (Projectiles[j].w / 2), Projectiles[j].y + (Projectiles[j].h / 2), Enemies[i].x + (Enemies[i].w / 2), Enemies[i].y + (Enemies[i].h / 2)) < (Enemies[i].x + (Enemies[i].w / 2) + Projectiles[j].x + (Projectiles[j].w / 2)))  {
           Enemies[i].hp -= Projectiles[j].dmg;
         }
-      } else {
+      } else { // Proj. center-point collision with zombie
         if(Projectiles[j].cx > Enemies[i].x && Projectiles[j].cx < Enemies[i].x + Enemies[i].w && Projectiles[j].cy > Enemies[i].y && Projectiles[j].cy < Enemies[i].y + Enemies[i].h) {
           Enemies[i].hp -= Projectiles[j].dmg;
           Projectiles.splice(j, 1);
@@ -121,7 +132,7 @@ function draw() {
         Powerups.push(new Powerup(Enemies[i].x, Enemies[i].y, rtype));
       }
       Enemies.splice(i, 1);
-      stext.score++;
+      score_text.value++;
     }
   }
 
@@ -134,7 +145,7 @@ function draw() {
         player.weapon = Powerups[i].type;
         Powerups.splice(i, 1);
       } else if(pressX) {
-        stext.score += 50;
+        score_text.value += 50;
         Powerups.splice(i, 1);
       }
     } else Powerups[i].glow = 0;
@@ -146,7 +157,7 @@ function draw() {
   click = 0;
   pressE = false;
   pressX = false;
-  eController.spawnTimer--;
+  enemy_controller.spawnTimer--;
   /*pController.spawnTimer--;*/
 }
 
@@ -158,6 +169,7 @@ function drawbg() {
 
 //Draw HUD
 function drawScene() {
+<<<<<<< HEAD:MainScript.js
   //Draw score text
   area.ctx.fillText("Score: " + stext.score, stext.x, stext.y);
 
@@ -168,6 +180,9 @@ function drawScene() {
 
 function draw_bar(x, y, width, height, progress) {
   
+=======
+  area.ctx.fillText("Score: " + score_text.value, score_text.x, score_text.y);
+>>>>>>> 9d18ed68b78a53499ada88c346fce2789637d049:main.js
 }
 
 function logmouse(event) {
