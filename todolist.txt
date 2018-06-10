@@ -4,3 +4,6 @@
 [2] Add more zombies and weapons.
 [3] Create boss zombie wave.
 [4] Create shop (?)
+[5] Statistics display page --> Global + Current run     |
+[6] User login with database (fetch global statistics)   | Database-Related
+[7] Score posting with database                          |
