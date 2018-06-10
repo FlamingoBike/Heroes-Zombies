@@ -1,0 +1,6 @@
+-- What to do? Only bikes will know... --
+
+[1] Create a GUI bar and resize the background and move the score text.
+[2] Add more zombies and weapons.
+[3] Create boss zombie wave.
+[4] Create shop (?)
