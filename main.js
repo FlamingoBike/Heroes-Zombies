@@ -169,7 +169,7 @@ var hud_vars = [
 //Draw HUD
 function drawScene() {
   //Draw score text
-  draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
+  draw_text("Score: " + score_text.value, score_text.x, score_text.y, "#000000");
 
   //Draw HUD
   var hp_hud = document.getElementById("imgBox");
@@ -187,47 +187,9 @@ function drawScene() {
   area.ctx.drawImage(bar, 100, 700);
 
   //Draw weapon equipped
-  draw_text("Weapon", 120, 730);
+  draw_text("Weapon", 120, 730, "#FFFFFF");
   draw_weapon();
-} 
-
-function draw_bar(x, y, w, h, progress, color) {
-  var real_size = (progress * h) / 100;
-  area.ctx.fillStyle = color;
-  area.ctx.fillRect(x, y, w, real_size);
-  area.ctx.stroke();
-}
-
-function draw_text(text, x, y, color) {
-  area.ctx.fillStyle = color;
-  area.ctx.fillText(text, x, y);
-}
-
-function draw_weapon() {
-  switch (player.weapon) {
-    case "SPEAR":
-      draw_text("SPEAR", 120, 750);
-      break;
-    case "CANNON":
-      draw_text("CANNON", 120, 750);
-      break;
-    case "WAND":
-      draw_text("WAND", 120, 750);
-      break;
-    case "BOW":
-      draw_text("BOW", 120, 750);
-      break;
-    case "SWORD":
-      draw_text("SWORD", 120, 750);
-      break;
-    default:
-      draw_text("NO WEAPON", 120, 750);
-      break;
-  }
-}
-
-function percent(value, max) {
-  return (value / max) * 100;
+  draw_line(100, 750, 200, 750, "#FFFFFF");
 }
 
 function logmouse(event) {
