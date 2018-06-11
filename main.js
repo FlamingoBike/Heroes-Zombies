@@ -160,13 +160,19 @@ function drawbg() {
 var hp = 400;
 var maxHp = 400;
 
+var hud_vars = [
+  weapon = "",
+  damage = 0,
+  desc = 0
+];
+
 //Draw HUD
 function drawScene() {
   //Draw score text
   draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
 
   //Draw HUD
-  var hp_hud = document.getElementById("imgHP");
+  var hp_hud = document.getElementById("imgBox");
   area.ctx.drawImage(hp_hud, 0, 700);
   //Test HP
   hp--;
@@ -174,7 +180,15 @@ function drawScene() {
   //Draw HP Bar
   draw_bar(2, 798, 96, -96, percent(hp, maxHp), "#FF0000");
   //Draw HP Text (Centered)
-  draw_text(45 - (hp.toString().length * 5) , 755, "#000000", hp);
+  draw_text(hp, 45 - (hp.toString().length * 5) , 755, "#000000");
+
+  //Draw bar
+  var bar = document.getElementById("imgBar");
+  area.ctx.drawImage(bar, 100, 700);
+
+  //Draw weapon equipped
+  draw_text("Weapon", 120, 730);
+  draw_weapon();
 } 
 
 function draw_bar(x, y, w, h, progress, color) {
@@ -184,9 +198,32 @@ function draw_bar(x, y, w, h, progress, color) {
   area.ctx.stroke();
 }
 
-function draw_text(x, y, color, text) {
+function draw_text(text, x, y, color) {
   area.ctx.fillStyle = color;
   area.ctx.fillText(text, x, y);
+}
+
+function draw_weapon() {
+  switch (player.weapon) {
+    case "SPEAR":
+      draw_text("SPEAR", 120, 750);
+      break;
+    case "CANNON":
+      draw_text("CANNON", 120, 750);
+      break;
+    case "WAND":
+      draw_text("WAND", 120, 750);
+      break;
+    case "BOW":
+      draw_text("BOW", 120, 750);
+      break;
+    case "SWORD":
+      draw_text("SWORD", 120, 750);
+      break;
+    default:
+      draw_text("NO WEAPON", 120, 750);
+      break;
+  }
 }
 
 function percent(value, max) {
