@@ -12,8 +12,6 @@ var area = {
   },
 }
 
-var hp = 100;
-
 // Keyboard and Mouse controls
 var heldA = false;
 var heldW = false;
@@ -159,6 +157,9 @@ function drawbg() {
   area.ctx.drawImage(bg, 0, 0);
 }
 
+var hp = 400;
+var maxHp = 400;
+
 //Draw HUD
 function drawScene() {
   //Draw score text
@@ -167,10 +168,13 @@ function drawScene() {
   //Draw HUD
   var hp_hud = document.getElementById("imgHP");
   area.ctx.drawImage(hp_hud, 0, 700);
+  //Test HP
   hp--;
-  if (hp <= 0) hp = 100;
-  draw_bar(2, 798, 96, -96, hp, "#FF0000");
-
+  if (hp <= 0) hp = maxHp;
+  //Draw HP Bar
+  draw_bar(2, 798, 96, -96, percent(hp, maxHp), "#FF0000");
+  //Draw HP Text (Centered)
+  draw_text(45 - (hp.toString().length * 5) , 755, "#000000", hp);
 } 
 
 function draw_bar(x, y, w, h, progress, color) {
@@ -183,6 +187,10 @@ function draw_bar(x, y, w, h, progress, color) {
 function draw_text(x, y, color, text) {
   area.ctx.fillStyle = color;
   area.ctx.fillText(text, x, y);
+}
+
+function percent(value, max) {
+  return (value / max) * 100;
 }
 
 function logmouse(event) {
