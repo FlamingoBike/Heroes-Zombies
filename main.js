@@ -4,7 +4,7 @@ var area = {
     this.width = 1000;
     this.height = 800;
     this.ctx = this.canvas.getContext("2d");
-    this.ctx.font = "900 20px Serif";
+    this.ctx.font = "900 16px Arial";
     this.interval = setInterval(draw, 1000/60);
   },
   clear : function() {
@@ -194,8 +194,8 @@ var hud_vars = [
 
 // Draw HUD
 function drawScene() {
-  // Draw score text
-  draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
+  //Draw score text
+  draw_text("Score: " + score_text.value, score_text.x, score_text.y, "#000000");
 
   // Draw HUD
   var hud_hp = document.getElementById("imgBox");
@@ -212,35 +212,10 @@ function drawScene() {
   var bar = document.getElementById("imgBar");
   area.ctx.drawImage(bar, 100, 700);
 
-  // Draw weapon equipped
-  draw_text("Weapon", 120, 730);
+  //Draw weapon equipped
+  draw_text("Weapon", 135, 720, "#FFFFFF");
   draw_weapon();
-}
-
-function draw_bar(x, y, w, h, progress, color) {
-  var real_size = (progress * h) / 100;
-  area.ctx.fillStyle = color;
-  area.ctx.fillRect(x, y, w, real_size);
-  area.ctx.stroke();
-}
-
-function draw_text(text, x, y, color) {
-  area.ctx.fillStyle = color;
-  area.ctx.fillText(text, x, y);
-}
-
-function draw_weapon() {
-  Weapons.forEach((w) => {
-    if(player.weapon == "SPEAR" && player.weapon == w.weaponType) { draw_text("SPEAR", 120, 750); }
-    if(player.weapon == "CANNON" && player.weapon == w.weaponType) { draw_text("CANNON", 120, 750); }
-    if(player.weapon == "WAND" && player.weapon == w.weaponType) { draw_text("WAND", 120, 750); }
-    if(player.weapon == "BOW" && player.weapon == w.weaponType) { draw_text("BOW", 120, 750); }
-    if(player.weapon == "SWORD" && player.weapon == w.weaponType) { draw_text("SWORD", 120, 750); }
-  });
-}
-
-function percent(value, max) {
-  return (value / max) * 100;
+  //draw_line(100, 750, 200, 750, "#FFFFFF");
 }
 
 function checkboss() {
