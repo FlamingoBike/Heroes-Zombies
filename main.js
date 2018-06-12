@@ -4,7 +4,7 @@ var area = {
     this.width = 1000;
     this.height = 800;
     this.ctx = this.canvas.getContext("2d");
-    this.ctx.font = "900 20px Serif";
+    this.ctx.font = "900 16px Arial";
     this.interval = setInterval(draw, 1000/60);
   },
   clear : function() {
@@ -187,9 +187,9 @@ function drawScene() {
   area.ctx.drawImage(bar, 100, 700);
 
   //Draw weapon equipped
-  draw_text("Weapon", 120, 730, "#FFFFFF");
+  draw_text("Weapon", 135, 720, "#FFFFFF");
   draw_weapon();
-  draw_line(100, 750, 200, 750, "#FFFFFF");
+  //draw_line(100, 750, 200, 750, "#FFFFFF");
 }
 
 function logmouse(event) {
