@@ -42,6 +42,13 @@ var Projectiles = [];
 var Enemies = [];
 var Powerups = [];
 var player = new Player(400, 300);
+var Weapons = [
+  new Weapon("SPEAR", "imgCharacter0", "poSpear", "pSpear", 1),
+  new Weapon("CANNON", "imgCannoneer0", "poCannon", "pCannon", 3),
+  new Weapon("WAND", "imgMage0", "poWand", "pWand", 0.2),
+  new Weapon("BOW", "imgArcher0", "poBow", "pArcher", 1),
+  new Weapon("SWORD", "imgSwordsman0", "poSword", "pSwordsman", 0.1)
+];
 
 var enemy_controller = {
   spawnTimer: 0,
@@ -64,7 +71,7 @@ var score_text = {
 
 function startup() {
   area.start();
-  stopGame();
+
 }
 
 function draw() {
@@ -72,19 +79,15 @@ function draw() {
 
   drawbg();
 
-<<<<<<< HEAD
   drawScene();
 
   if(enemy_controller.spawnTimer == 0 && !pause && spawnmobs) {
-=======
-  if(enemy_controller.spawnTimer == 0 && pause == 0) {
->>>>>>> 266ee655c57acf1d4a3930872225051a614a3029
     var rx = Math.floor(Math.random() * 2);
     var ry = Math.floor(Math.random() * 2);
     if(rx == 0) rx = Math.floor(Math.random() * 51);
     else rx = area.width - 50 + Math.floor(Math.random() * 51);
     if(ry == 0) ry = Math.floor(Math.random() * 51);
-    else ry = area.height - 50 + Math.floor(Math.random() * 51);
+    else ry = area.height - 100 - 50 + Math.floor(Math.random() * 51);
     Enemies.push(new Enemy(rx, ry, "ZOMBIE"));
     enemy_controller.spawnTimer = enemy_controller.maxSpawn;
   }
@@ -107,7 +110,6 @@ function draw() {
       console.log("X: " + Projectiles[j].x + " Y: " + Projectiles[j].y + " CX: " + Projectiles[j].cx + " CY: " + Projectiles[j].cy);
       console.log("----- Enemy -----");
       console.log("X: " + Enemies[i].x + " Y: " + Enemies[i].y);*/
-<<<<<<< HEAD
 
       // Rotate canvas before checking collisions
       area.ctx.save();
@@ -115,10 +117,6 @@ function draw() {
       area.ctx.rotate(Enemies[i].angle);
 
       if(Projectiles[j].type == "SWORD") { // Proj. center-point radius collision with zombie
-=======
-      //Check if projectiles is a sword
-      if(Projectiles[j].type == "SWORD") {
->>>>>>> 266ee655c57acf1d4a3930872225051a614a3029
         if(dist2(Projectiles[j].x + (Projectiles[j].w / 2), Projectiles[j].y + (Projectiles[j].h / 2), Enemies[i].x + (Enemies[i].w / 2), Enemies[i].y + (Enemies[i].h / 2)) < (Enemies[i].x + (Enemies[i].w / 2) + Projectiles[j].x + (Projectiles[j].w / 2)))  {
           Enemies[i].hp -= Projectiles[j].dmg;
         }
@@ -137,9 +135,8 @@ function draw() {
     if(Enemies[i].hp <= 0) {
       var powerup_chance = Math.random() * 100;
       if(powerup_chance >= 0 && powerup_chance < 20) { // Spawn a Powerup at the enemy defeated
-        var types = ["SPEAR", "CANNON", "WAND", "BOW", "SWORD"];
-        var rtype = types[Math.floor(Math.random() * types.length)];
-        Powerups.push(new Powerup(Enemies[i].x, Enemies[i].y, rtype));
+        var rweapon = Weapons[Math.floor(Math.random() * Weapons.length)].weaponType;
+        Powerups.push(new Powerup(Enemies[i].x, Enemies[i].y, rweapon));
       }
       if(Enemies[i].type == "BOSSZOMBIE") {
         is_boss = false;
@@ -195,30 +192,30 @@ var hud_vars = [
   desc = 0
 ];
 
-//Draw HUD
+// Draw HUD
 function drawScene() {
-  //Draw score text
+  // Draw score text
   draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
 
-  //Draw HUD
-  var hp_hud = document.getElementById("imgBox");
-  area.ctx.drawImage(hp_hud, 0, 700);
-  //Test HP
+  // Draw HUD
+  var hud_hp = document.getElementById("imgBox");
+  area.ctx.drawImage(hud_hp, 0, 700);
+  // Test HP
   hp--;
   if (hp <= 0) hp = maxHp;
-  //Draw HP Bar
+  // Draw HP Bar
   draw_bar(2, 798, 96, -96, percent(hp, maxHp), "#FF0000");
-  //Draw HP Text (Centered)
+  // Draw HP Text (Centered)
   draw_text(hp, 45 - (hp.toString().length * 5) , 755, "#000000");
 
-  //Draw bar
+  // Draw bar
   var bar = document.getElementById("imgBar");
   area.ctx.drawImage(bar, 100, 700);
 
-  //Draw weapon equipped
+  // Draw weapon equipped
   draw_text("Weapon", 120, 730);
   draw_weapon();
-} 
+}
 
 function draw_bar(x, y, w, h, progress, color) {
   var real_size = (progress * h) / 100;
@@ -233,26 +230,13 @@ function draw_text(text, x, y, color) {
 }
 
 function draw_weapon() {
-  switch (player.weapon) {
-    case "SPEAR":
-      draw_text("SPEAR", 120, 750);
-      break;
-    case "CANNON":
-      draw_text("CANNON", 120, 750);
-      break;
-    case "WAND":
-      draw_text("WAND", 120, 750);
-      break;
-    case "BOW":
-      draw_text("BOW", 120, 750);
-      break;
-    case "SWORD":
-      draw_text("SWORD", 120, 750);
-      break;
-    default:
-      draw_text("NO WEAPON", 120, 750);
-      break;
-  }
+  Weapons.forEach((w) => {
+    if(player.weapon == "SPEAR" && player.weapon == w.weaponType) { draw_text("SPEAR", 120, 750); }
+    if(player.weapon == "CANNON" && player.weapon == w.weaponType) { draw_text("CANNON", 120, 750); }
+    if(player.weapon == "WAND" && player.weapon == w.weaponType) { draw_text("WAND", 120, 750); }
+    if(player.weapon == "BOW" && player.weapon == w.weaponType) { draw_text("BOW", 120, 750); }
+    if(player.weapon == "SWORD" && player.weapon == w.weaponType) { draw_text("SWORD", 120, 750); }
+  });
 }
 
 function percent(value, max) {

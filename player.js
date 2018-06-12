@@ -11,27 +11,33 @@ function Player(x, y) {
 
   this.update = function() {
 
-    if(this.weapon == "SPEAR") {
-      this.w = 44;
-      this.h = 44;
-      this.maxcd = 50;
-    } else if(this.weapon == "CANNON") {
-      this.w = 34;
-      this.h = 44;
-      this.maxcd = 100;
-    } else if(this.weapon == "WAND") {
-      this.w = 42;
-      this.h = 44;
-      this.maxcd = 4;
-    } else if(this.weapon == "BOW") {
-      this.w = 34;
-      this.h = 34;
-      this.maxcd = 60;
-    } else if(this.weapon == "SWORD") {
-      this.w = 34;
-      this.h = 34;
-      this.maxcd = 80;
-    }
+    Weapons.forEach((w) => {
+      if(this.weapon == "SPEAR" && this.weapon == w.weaponType) {
+        this.w = 44;
+        this.h = 44;
+        this.maxcd = 50;
+      }
+      if(this.weapon == "CANNON" && this.weapon == w.weaponType) {
+        this.w = 34;
+        this.h = 44;
+        this.maxcd = 100;
+      }
+      if(this.weapon == "WAND" && this.weapon == w.weaponType) {
+        this.w = 42;
+        this.h = 44;
+        this.maxcd = 4;
+      }
+      if(this.weapon == "BOW" && this.weapon == w.weaponType) {
+        this.w = 34;
+        this.h = 34;
+        this.maxcd = 60;
+      }
+      if(this.weapon == "SWORD" && this.weapon == w.weaponType) {
+        this.w = 34;
+        this.h = 34;
+        this.maxcd = 80;
+      }
+    });
 
     if(this.x + this.w > area.width)
         this.x = area.width - this.w;
@@ -56,35 +62,37 @@ function Player(x, y) {
   }
 
   this.show = function() {
-    if(this.animation == 0) {
-      if(this.weapon == "SPEAR")
-        this.img = document.getElementById("imgCharacter0");
-      else if(this.weapon == "CANNON")
-        this.img = document.getElementById("imgCannoneer0");
-      else if(this.weapon == "WAND")
-        this.img = document.getElementById("imgMage0");
-      else if(this.weapon == "BOW")
-        this.img = document.getElementById("imgArcher0");
-      else if(this.weapon == "SWORD")
-        this.img = document.getElementById("imgSwordsman0");
-    } else {
-      if(this.weapon == "SPEAR")
-        this.img = document.getElementById("imgCharacter1");
-      else if(this.weapon == "CANNON")
-        this.img = document.getElementById("imgCannoneer0");
-      else if(this.weapon == "WAND")
-        this.img = document.getElementById("imgMage0");
-      else if(this.weapon == "BOW")
-        this.img = document.getElementById("imgArcher0");
-      else if(this.weapon == "SWORD")
-        this.img = document.getElementById("imgSwordsman1");
-    }
+    Weapons.forEach((w) => {
+      if(this.animation == 0) {
+        if(this.weapon == "SPEAR" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgCharacter0");
+        else if(this.weapon == "CANNON" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgCannoneer0");
+        else if(this.weapon == "WAND" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgMage0");
+        else if(this.weapon == "BOW" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgArcher0");
+        else if(this.weapon == "SWORD" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgSwordsman0");
+      } else {
+        if(this.weapon == "SPEAR" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgCharacter1");
+        else if(this.weapon == "CANNON" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgCannoneer0");
+        else if(this.weapon == "WAND" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgMage0");
+        else if(this.weapon == "BOW" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgArcher0");
+        else if(this.weapon == "SWORD" && this.weapon == w.weaponType)
+          this.img = document.getElementById("imgSwordsman1");
+      }
+    });
 
-      area.ctx.save();
-  		area.ctx.translate(this.x, this.y);
-  		area.ctx.rotate(this.angle);
-  		area.ctx.drawImage(this.img, -this.w / 2, -this.h / 2);
-  		area.ctx.restore();
+    area.ctx.save();
+		area.ctx.translate(this.x, this.y);
+		area.ctx.rotate(this.angle);
+		area.ctx.drawImage(this.img, -this.w / 2, -this.h / 2);
+		area.ctx.restore();
   }
 
   this.move = function(x, y) {
