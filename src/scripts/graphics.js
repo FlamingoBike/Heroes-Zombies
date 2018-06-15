@@ -11,8 +11,13 @@ function draw_text(text, x, y, color) {
 }
 
 function draw_weapon() {
-  area.ctx.drawImage(get_weapon(player.weapon), 150, 740);
-  draw_text(player.weapon, 125, 790, "#FFFFFF");
+  area.ctx.drawImage(get_weapon(player.weapon), 145, 733);
+  draw_text(player.weapon, 130, 795, "#FFFFFF");
+  draw_text("ATK: WIP bikesuper", 210, 745, "#FFFFFF");
+}
+
+function draw_skills() {
+  
 }
 
 function draw_line(x, y, ex, ey, color) {
