@@ -198,7 +198,7 @@ function drawScene() {
   draw_text(score_text.x, score_text.y, "#000000", "Score: " + score_text.value);
 
   // Draw HUD
-  var hud_hp = document.getElementById("imgBox");
+  var hud_hp = document.getElementById("hubBox");
   area.ctx.drawImage(hud_hp, 0, 700);
   // Test HP
   hp--;
